@@ -1,4 +1,8 @@
 correlation:
   eod:
-    token: OeAFFmMliFG5orCUuwAKQ8l4WWFQ67YX
+    token: 625042f1b636f2.49903634
 
+aws:
+  eod:
+    dynamodb:
+      table: StockEOD

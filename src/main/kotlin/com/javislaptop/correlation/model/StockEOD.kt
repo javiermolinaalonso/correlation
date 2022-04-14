@@ -1,4 +1,4 @@
-package com.javislaptop.correlation.dataloader.eodhistoricaldata
+package com.javislaptop.correlation.model
 
 import java.time.LocalDate
 

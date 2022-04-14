@@ -2,3 +2,8 @@ correlation:
   eod:
     token: OeAFFmMliFG5orCUuwAKQ8l4WWFQ67YX
 
+aws:
+  eod:
+    dynamodb:
+      table: StockEOD
+
