@@ -1,8 +1,13 @@
 correlation:
   eod:
     token: 625042f1b636f2.49903634
+  deltaneutral:
+    basepath: /Users/javi/options/optiondata/
+    fileprefix: bb_options_
+    pattern: yyyyMMdd
 
 aws:
   eod:
     dynamodb:
       table: StockEOD
+      optionsTable: Options

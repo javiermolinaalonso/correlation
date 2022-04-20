@@ -1,6 +1,10 @@
 correlation:
   eod:
-    token: OeAFFmMliFG5orCUuwAKQ8l4WWFQ67YX
+    token: 625042f1b636f2.49903634
+  deltaneutral:
+    basepath: /Users/javi/options/optiondata/
+    fileprefix: L2_options_
+    pattern: yyyyMMdd
 
 aws:
   eod:

@@ -7,8 +7,7 @@ import java.text.MessageFormat
 @Service
 class DataLoaderOptionsEOD(private val restTemplate: RestTemplate) {
     companion object {
-//        val BASE_URL = "https://eodhistoricaldata.com/api/options/{0}?api_token={1}&from={2}&to={3}"
-        val BASE_URL = "https://eodhistoricaldata.com/api/options/{0}?api_token={1}&from={2}&to={3}"
+        val BASE_URL = "https://eodhistoricaldata.com/api/options/{0}?api_token={1}&trade_date_from={2}&trade_date_to={3}"
     }
 
     fun loadData(dataLoaderRequest: DataLoaderRequestOptionsEOD) =

@@ -6,4 +6,4 @@ import org.springframework.stereotype.Component
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "aws.eod.dynamodb")
-data class DynamoDbProperties(val table : String)
+data class DynamoDbProperties(val table : String, val optionsTable : String)

@@ -6,7 +6,10 @@ import com.javislaptop.correlation.model.StockEOD
 import org.springframework.stereotype.Service
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue
+import software.amazon.awssdk.services.dynamodb.model.BatchWriteItemRequest
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest
+import software.amazon.awssdk.services.dynamodb.model.PutRequest
+import software.amazon.awssdk.services.dynamodb.model.WriteRequest
 
 @Service
 class StoreStockEodToDynamoDB (
@@ -17,14 +20,30 @@ class StoreStockEodToDynamoDB (
 
     fun store(dataLoaderRequest: DataLoaderRequestEOD) {
         val data = loader.loadData(dataLoaderRequest)
-        data.forEach {
-            dynamoDbClient.putItem(
-                PutItemRequest.builder()
-                    .tableName(dynamoDbProperties.table)
-                    .item(convert(it, dataLoaderRequest.symbol))
-                    .build()
+        val r = mutableMapOf<String, List<WriteRequest>>()
+        val list = mutableListOf<WriteRequest>()
+        r[dynamoDbProperties.table] = list
+        data.forEachIndexed { i, v ->
+            list.add(WriteRequest.builder()
+                .putRequest(
+                    PutRequest.builder()
+                        .item(convert(v, dataLoaderRequest.symbol))
+                        .build()
+                ).build()
             )
+            if (i > 0 && i % 20 == 0) {
+                dynamoDbClient.batchWriteItem(BatchWriteItemRequest.builder().requestItems(r).build())
+                list.clear()
+            }
+//            dynamoDbClient.putItem(
+//                PutItemRequest.builder()
+//                    .tableName(dynamoDbProperties.table)
+//                    .item(convert(it, dataLoaderRequest.symbol))
+//                    .build()
+//            )
         }
+        r[dynamoDbProperties.table] = list
+
     }
 
     private fun convert(stockEOD: StockEOD, symbol : String): MutableMap<String, AttributeValue> {
