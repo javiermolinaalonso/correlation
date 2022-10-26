@@ -31,12 +31,16 @@ class DataLoaderDynamoDb(
 
 
     fun loadData(dataLoaderRequest: DataLoaderRequestDynamoDb) : List<StockEOD> {
+        var symbol = dataLoaderRequest.symbol
+        if (!dataLoaderRequest.symbol.endsWith("US")) {
+            symbol = symbol + ".US"
+        }
         val request = QueryRequest.builder()
             .tableName(dynamoDbProperties.table)
             .keyConditionExpression("#symbol = :symbolValue AND #date BETWEEN :from AND :to")
             .expressionAttributeNames(mapOf(Pair("#symbol", "symbol"), Pair("#date", "date")))
             .expressionAttributeValues(mapOf(
-                Pair(":symbolValue", AttributeValue.fromS(dataLoaderRequest.symbol)),
+                Pair(":symbolValue", AttributeValue.fromS(symbol)),
                 Pair(":from", AttributeValue.fromS(dataLoaderRequest.from.toString())),
                 Pair(":to", AttributeValue.fromS(dataLoaderRequest.to.toString()))
             ))
