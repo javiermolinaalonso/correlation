@@ -14,7 +14,28 @@ import java.time.Period
 @SpringBootTest(classes = arrayOf(CorrelationMain::class))
 class CorrelationTest {
     val from = LocalDate.of(2010, 1, 1)
-    val to = LocalDate.of(2021, 12, 31)
+    val to = LocalDate.of(2022, 3, 31)
+    val SYMBOLS = listOf(
+        "AMC",
+        "AAPL",
+        "TSLA",
+        "BB",
+        "AMZN",
+        "MSFT",
+        "BABA",
+        "GE",
+        "INTC",
+        "T",
+        "XOM",
+        "RIOT",
+        "GM",
+        "NFLX",
+        "DIS",
+        "PFE",
+        "QS",
+        "NKE",
+        "CSCO",
+    )
 
     @Autowired
     lateinit var victim: CorrelationService
@@ -24,19 +45,19 @@ class CorrelationTest {
 
     @Test
     internal fun computeCorrelation() {
-        val tickers = listOf("SPY.US",
-        "QQQ.US")
-        val intervals = listOf(7, 30, 60, 100, 200)
+        val intervals = listOf(200)
         val data = mutableMapOf<String, List<StockEOD>>()
-        tickers.forEach { data[it] = dataLoader.loadData(DataLoaderRequestDynamoDb(it, from, to)) }
+        SYMBOLS.forEach { data[it] = dataLoader.loadData(DataLoaderRequestDynamoDb(it, from, to)) }
 
-        from.datesUntil(to, Period.ofMonths(1)).forEachOrdered { date ->
-            intervals.forEach {
-                val result = victim.computeCorrelation(CorrelationRequest(data, date, it))
-                result.data
-                    .filter{it.value > 0.95 || it.value < -0.95}
-                    .forEach { println(it) }
+        println("symbol1, symbol2, from, to, correlation, increaseSymbol1, increaseSymbol2")
+        from.datesUntil(to, Period.ofMonths(1))
+            .forEachOrdered { date ->
+                intervals.forEach {
+                    val result = victim.computeCorrelation(CorrelationRequest(data, date, it))
+                    result.data
+                        .filter { it.value > 0.95 || it.value < -0.95 }
+                        .forEach { println(it) }
+                }
             }
-        }
     }
 }

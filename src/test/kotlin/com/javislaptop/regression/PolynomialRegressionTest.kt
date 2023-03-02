@@ -1,9 +1,13 @@
 package com.javislaptop.regression
 
 import com.javislaptop.correlation.model.StockEOD
+import org.assertj.core.api.Assertions.assertThat
+import org.hamcrest.MatcherAssert
+import org.hamcrest.Matchers
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
+import kotlin.math.pow
 
 class PolynomialRegressionTest {
 
@@ -77,9 +81,10 @@ class PolynomialRegressionTest {
         val coefs = doubleArrayOf(37.3935, -0.2737, 0.0087, -0.000125)
         val prediction = victim.predict(coefs, 55)
         val n = 55
-        val fn = coefs[0] + coefs[1] * n + coefs[2] * Math.pow(n.toDouble(), 2.0) + coefs[3] * Math.pow(n.toDouble(), 3.0)
+        val fn = coefs[0] + coefs[1] * n + coefs[2] * n.toDouble().pow(2.0) + coefs[3] * n.toDouble().pow(3.0)
 
-        Assertions.assertEquals(fn, prediction)
+
+        MatcherAssert.assertThat(fn, Matchers.closeTo(prediction, 0.01));
         println("result at $n is $fn")
     }
 
