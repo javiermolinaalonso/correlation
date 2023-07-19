@@ -1,0 +1,26 @@
+{
+  "ticker" : "SPY",
+  "currentPrice" : 384.96,
+  "now" : [ 2022, 7, 15 ],
+  "options" : [ {
+    "call" : "true",
+    "ticker" : "SPY",
+    "currentPrice" : 384.96,
+    "strikePrice" : 190.0,
+    "bid" : 198.47,
+    "ask" : 203.0,
+    "currentDate" : [ 2022, 7, 15 ],
+    "expirationDate" : [ 2024, 6, 21 ],
+    "impliedVolatility" : 0.41287818572998036,
+    "riskFree" : 0.001,
+    "greeks" : {
+      "delta" : 0.935682911134931,
+      "gamma" : 5.68506828517662E-4,
+      "vega" : 67.37757619589047,
+      "theta" : -0.020103777701670697,
+      "rho" : 304.005125759796
+    },
+    "call" : true,
+    "daysToExpiry" : 707.0
+  }]
+}
